@@ -8,6 +8,8 @@ __pycache__/
 test_report/
 # vscode settings
 .vscode
+# pipenv settings,ignore lock file
+*.lock
 
 # C extensions
 *.so
