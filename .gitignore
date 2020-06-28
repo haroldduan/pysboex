@@ -1,7 +1,13 @@
+# ---> Python
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+.coverage
+# Test report output files
+test_report/
+# vscode settings
+.vscode
 
 # C extensions
 *.so
