@@ -28,13 +28,13 @@ class TestClassCompany(object):
         company.db_password = 'AVAtech2010$'
         company.language = BoSuppLangs.CHINESE
         company.user_name = 'manager'
-        company.password = '111112'
+        company.password = '111111'
         company.sld_server = 'DEVSRV-B1:40000'
         error = company.connect()
         assert isinstance(error,Error)
-        print(error)
+        print('ErrorCode:%i ErrorMessage:%s' % (error.error_code,error.error_message))
 
-# if __name__ == '__main__':
-#     test = TestClassCompany()
-#     test.test_connect()
-#     pass
+if __name__ == '__main__':
+    test = TestClassCompany()
+    test.test_connect()
+    pass
