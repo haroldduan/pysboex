@@ -5,12 +5,16 @@
 from enum import Enum, IntEnum, unique
 
 
-class SBOClass(Enum):
+class SBOCOMClass(Enum):
     ''' SBO Business Class Types list '''
 
     NONE = ''
     COMPANY = 'SAPBobsCOM.Company'
     ITEMS = 'SAPBobsCOM.Items'
+
+    def __str__(self):
+        ''' str() function implement '''
+        return self.value
 
 
 class BoDataServerTypes(IntEnum):

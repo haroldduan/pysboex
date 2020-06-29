@@ -9,41 +9,30 @@ __all__ = ['Company']
 from .error import Error
 from .datatypes import BoDataServerTypes, BoSuppLangs, BoObjectTypes
 import os
-from win32com import client
 
 
 class Company(object):
     ''' define Company Repository class '''
 
-    def __init__(self):
+    def __init__(self,sbo_com_ins):
         ''' constructor '''
         try:
-            # self.__db_server_type: BoDataServerTypes
-            # self.__server: str
-            # self.__license_server: str
-            # self.__company_db: str
-            # self.__db_user_name: str
-            # self.__db_password: str
-            # self.__lanuage: BoSuppLangs
-            # self.__user_name: str
-            # self.__password: str
-            # self.__sld_server: str
-            # self.__is_connected: bool = False
-            # self.__company_name: str = ''
-            # self.__sbo_company: str = ''
-            self.__db_server_type = BoDataServerTypes.NONE
-            self.__server = ''
-            self.__license_server = ''
-            self.__company_db = ''
-            self.__db_user_name = ''
-            self.__db_password = ''
-            self.__lanuage = BoSuppLangs.NULL
-            self.__user_name = ''
-            self.__password = ''
-            self.__sld_server = ''
-            self.__is_connected = False
-            self.__company_name = ''
-            self.__sbo_company = ''
+            if sbo_com_ins:
+                self.__db_server_type = BoDataServerTypes.NONE
+                self.__server = ''
+                self.__license_server = ''
+                self.__company_db = ''
+                self.__db_user_name = ''
+                self.__db_password = ''
+                self.__lanuage = BoSuppLangs.NULL
+                self.__user_name = ''
+                self.__password = ''
+                self.__sld_server = ''
+                self.__is_connected = False
+                self.__company_name = ''
+                self.__sbo_company = sbo_com_ins
+            else:
+                raise Exception('SBO COM object instance is invalid!')
             pass
         except Exception as e:
             raise e
@@ -141,17 +130,6 @@ class Company(object):
         err = Error()
         try:
             if not self.__is_connected:
-                print(os.getcwd())
-                # print(sys.path)
-                # clr.FindAssembly('Interop.SAPbobsCOM.x86.dll')
-                # from SAPbobsCOM import *
-                # cur_path = os.path.abspath('./net')
-                # sys.path.append(cur_path)
-                # clr.AddReference('Interop.SAPbobsCOM.x86')
-                # from SAPbobsCOM import Company
-                # cmp = Company()
-                if not self.__sbo_company:
-                    self.__sbo_company = client.Dispatch('SAPBobsCOM.Company')
                 self.__sbo_company.DbServerType = self.__db_server_type
                 self.__sbo_company.Server = self.__server
                 self.__sbo_company.LicenseServer = self.__license_server
@@ -215,9 +193,44 @@ class Company(object):
             raise e
 
     def get_last_error_description(self) -> str:
-        ''' Get SBO business object '''
+        ''' Get SBO last error description '''
         try:
             err_desc = self.__sbo_company.GetLastErrorDescription()
             return err_desc
         except Exception as e:
             raise e
+
+    def get_last_error_code(self) -> int:
+        ''' Get SBO last error code '''
+        try:
+            err_code = self.__sbo_company.GetLastErrorCode()
+            return err_code
+        except Exception as e:
+            raise e
+
+    def get_new_object_type(self)-> str:
+        ''' Get SBO new object type '''
+        try:
+            new_obj_type = self.__sbo_company.GetNewObjectType()
+            return new_obj_type
+        except Exception as e:
+            raise e
+
+    def get_new_object_key(self)-> str:
+        ''' Get SBO new object type '''
+        try:
+            new_obj_key = self.__sbo_company.GetNewObjectKey()
+            return new_obj_key
+        except Exception as e:
+            raise e
+
+    # def get_last_error(self) -> Error:
+    #     ''' Get SBO last error '''
+    #     try:
+    #         temp_err_code = 0
+    #         temp_err_msg = ''
+    #         self.__sbo_company.GetLastError(temp_err_code,temp_err_msg)
+    #         error = Error(temp_err_code,temp_err_msg)
+    #         return error
+    #     except Exception as e:
+    #         raise e
