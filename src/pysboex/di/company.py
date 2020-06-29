@@ -223,6 +223,14 @@ class Company(object):
             return new_obj_key
         except Exception as e:
             raise e
+    
+    def get_company_service(self):
+        ''' Get SBO company service '''
+        try:
+            cmp_srv = self.__sbo_company.GetCompanyService()
+            return cmp_srv
+        except Exception as e:
+            raise e
 
     # def get_last_error(self) -> Error:
     #     ''' Get SBO last error '''

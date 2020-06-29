@@ -4,22 +4,31 @@
 
 __version__ = "0.0.1.dev"
 __author__ = "Harold.Duan"
-__all__ = ['company','COMClassInfo','get_com_object']
+__all__ = ['company','COMClassInfo','get_com_object','get_com_cls_info']
 
 from win32com import client
 from inspect import getmembers
 from .company import Company
 from .datatypes import SBOCOMClass
+# from pythoncom import ProgIDFromCLSID
 
 
 def get_com_object(com_obj_type: SBOCOMClass):
     ''' Get SBO COM object instance '''
     try:
-        com_obj = client.Dispatch(str(SBOCOMClass.COMPANY))
+        # com_obj = client.Dispatch(str(com_obj_type))
+        com_obj = client.gencache.EnsureDispatch(str(com_obj_type))
+        type_ = client.gencache.GetClassForProgID(str(com_obj_type))
+        cls_id = com_obj.CLSID
+        str_cls_id = str(cls_id)
+        class_ = client.gencache.CLSIDToClass.GetClass(str_cls_id)
+        prog_id = client.pythoncom.ProgIDFromCLSID(str_cls_id)
+        # com_obj.__class__.__dict_
+        # prog_id = com_obj.procids()
+        # prog_id = ProgIDFromCLSID(cls_id)
         return com_obj
     except Exception as e:
         raise e
-
 
 class COMClassInfo(object):
     ''' define COM class info '''
@@ -80,6 +89,9 @@ class COMClassInfo(object):
         # obj = client.gencache.EnsureDispatch(str(com_obj_type))
         # obj = client.Dispatch(str(com_obj_type))
         try:
+            # temp =  getmembers(com_obj_ins)
+            # com_obj_ins.procids()
+            val = com_obj_ins._find_dispatch_type_()
             methods = [m[0] for m in getmembers(com_obj_ins) if
                        (not m[0].startswith("_") and "clsid" not in m[0].lower())]
             self.__methods = methods
@@ -89,6 +101,14 @@ class COMClassInfo(object):
             #     "'win32com.client.Dispatch()'")
             raise e
 
+
+def  get_com_cls_info(com_obj_type: SBOCOMClass) -> COMClassInfo:
+    ''' Get SBO COM clss info instance '''
+    try:
+        ret_val = COMClassInfo(com_obj_type)
+        return ret_val
+    except Exception as e:
+        raise e
 
 ret_val = get_com_object(SBOCOMClass.COMPANY)
 company = Company(ret_val)

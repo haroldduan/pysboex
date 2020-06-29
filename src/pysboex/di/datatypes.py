@@ -10,7 +10,7 @@ class SBOCOMClass(Enum):
 
     NONE = ''
     COMPANY = 'SAPBobsCOM.Company'
-    ITEMS = 'SAPBobsCOM.Items'
+    # ITEMS = 'SAPBobsCOM.Items'
 
     def __str__(self):
         ''' str() function implement '''
