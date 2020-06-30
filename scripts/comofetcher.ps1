@@ -1,6 +1,7 @@
 <#
+**** Comofetcher,means [COM Object Fetcher]'s abbreviation.
 **** Programmer:Harold.Duan
-**** Date:20200627
+**** Date:20200629
 **** Reason: COM object fetcher running scripts.
 #>
 # gwmi -list | ?{ $_.Name -cmatch "COM" }
@@ -54,7 +55,7 @@ switch($os_bit){
 # Write-Output $os_bit
 Write-Output "You choosed: [$os_bit]!"
 
-$key_words = Read-Host 'You can set some key words for search the COM Object...'
+$key_words = Read-Host 'You can set some key words for fetching the COM Objects...'
 Write-Output "Your key words: [$key_words]!"
 
 Write-Output "Fetching..."
