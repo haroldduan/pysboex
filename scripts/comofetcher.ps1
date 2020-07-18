@@ -40,7 +40,7 @@ function Get-ProgID {
 
 # Get-ProgID
 
-Write-Output 'Welcome to COMSelector!'
+Write-Output 'Welcome to Comofetcher!'
 $os_bit = Read-Host 'Choose os bit,
 0.all(default)
 1.x64
